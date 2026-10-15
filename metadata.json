@@ -1,0 +1,8 @@
+{
+  "name": "Remix TugasQu",
+  "description": "Aplikasi manajemen tugas harian dengan prioritas, pengingat notifikasi, sinkronisasi real-time, integrasi kalender, dan mode gelap.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
