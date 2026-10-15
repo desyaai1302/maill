@@ -20,14 +20,13 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
 
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x ./gradlew || chmod +x gradlew
-        continue-on-error: true
-
-      - name: Build APK with Gradle
-        run: ./gradlew assembleDebug || gradle assembleDebug
+      - name: Build with Gradle
+        run: |
+          chmod +x gradlew || true
+          ./gradlew assembleDebug -Djava.awt.headless=true --no-daemon
+        env:
+          GRADLE_OPTS: "-Djava.awt.headless=true"
 
       - name: Upload Finished APK
         uses: actions/upload-artifact@v4
