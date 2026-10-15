@@ -21,12 +21,25 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build with Gradle
+      - name: Auto-Detect Project Folder and Build APK
         run: |
-          chmod +x gradlew || true
+          # Mencari di mana file gradlew berada secara otomatis
+          GRADLEW_PATH=$(find . -name gradlew | head -n 1)
+          
+          if [ -z "$GRADLEW_PATH" ]; then
+            echo "Aduh! File gradlew tidak ditemukan di folder mana pun."
+            exit 1
+          fi
+          
+          PROJECT_DIR=$(dirname "$GRADLEW_PATH")
+          echo "Proyek Anda ditemukan di dalam folder: $PROJECT_DIR"
+          
+          # Masuk ke folder proyek dan jalankan perakitan APK
+          cd "$PROJECT_DIR"
+          chmod +x gradlew
           ./gradlew assembleDebug -Djava.awt.headless=true --no-daemon
         env:
-          GRADLE_OPTS: "-Djava.awt.headless=true"
+          JAVA_TOOL_OPTIONS: "-Djava.awt.headless=true"
 
       - name: Upload Finished APK
         uses: actions/upload-artifact@v4
